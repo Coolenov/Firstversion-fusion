@@ -1,6 +1,5 @@
 package scrapers
 
-//
 //func PikabuScraper(url string) []lib.Post {
 //	var fp = gofeed.NewParser()
 //	var feed, _ = fp.ParseURL(url)

@@ -1,7 +1,7 @@
 package scrapers
 
 import (
-	"Habr_gofeed/lib"
+	"NaxProject/lib"
 	"github.com/mmcdole/gofeed"
 )
 
