@@ -1,0 +1,25 @@
+
+
+CREATE TABLE postsTags (
+  id int NOT NULL AUTO_INCREMENT,
+  tag_id varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  post_id int DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=5218 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE Tags (
+  id int NOT NULL AUTO_INCREMENT,
+  tagText varchar(256) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB AUTO_INCREMENT=934 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE posts (
+  id int NOT NULL AUTO_INCREMENT,
+  title text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  description text,
+  link text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  imageUrl text,
+  pars_time timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY Cash_id_IDX (id) USING BTREE
+) ENGINE=InnoDB AUTO_INCREMENT=160 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

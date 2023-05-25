@@ -1,8 +1,8 @@
 package main
 
 import (
-	"Habr_gofeed/lib"
-	"Habr_gofeed/scrapers"
+	"NaxProject/lib"
+	"NaxProject/scrapers"
 	"database/sql"
 )
 
@@ -11,7 +11,7 @@ const (
 )
 
 func dbConnect() *sql.DB {
-	db, err := sql.Open("mysql", "root:password@tcp(127.0.0.1:3306)/Nax")
+	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/Naxproject")
 	if err != nil {
 		panic(err.Error())
 	}

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Habr_gofeed.iml" filepath="$PROJECT_DIR$/.idea/Habr_gofeed.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/NaxProject.iml" filepath="$PROJECT_DIR$/.idea/NaxProject.iml" />
     </modules>
   </component>
 </project>

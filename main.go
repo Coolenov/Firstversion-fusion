@@ -4,14 +4,13 @@ import (
 	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 	"time"
-	//"time"
 )
 
 func main() {
 	counter := 0
 
 	for counter != 100 {
-		timer := time.NewTimer(300 * time.Second)
+		timer := time.NewTimer(10 * time.Second)
 
 		posts := getPosts()
 		savePosts(posts)
