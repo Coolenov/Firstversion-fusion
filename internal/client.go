@@ -1,4 +1,4 @@
-package main
+package internal
 
 import (
 	"NaxProject/lib"
@@ -8,25 +8,22 @@ import (
 
 const (
 	habrUrl = "https://habr.com/ru/rss/all/all/"
+
+	dbUrl = "root:root@tcp(127.0.0.1:3306)/Naxproject"
 )
 
-func dbConnect() *sql.DB {
-	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/Naxproject")
-	if err != nil {
-		panic(err.Error())
-	}
-	return db
-}
-
-func getPosts() []lib.Post {
+func GetScraperPosts() []lib.Post {
 	var habrPosts = scrapers.HabrScraper(habrUrl)
 
 	finalPosts := append(habrPosts)
 	return finalPosts
 }
 
-func savePosts(posts []lib.Post) {
-	db := dbConnect()
+func SavePosts(posts []lib.Post) {
+	db, err := sql.Open("mysql", dbUrl)
+	if err != nil {
+		panic(err.Error())
+	}
 	defer db.Close()
 	for _, post := range posts {
 		postId := lib.AddPostIntoPostsTable(post, db)

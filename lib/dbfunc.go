@@ -2,7 +2,18 @@ package lib
 
 import (
 	"database/sql"
+	_ "github.com/go-sql-driver/mysql"
 )
+
+//ts := "root:root@tcp(127.0.0.1:3306)/Naxproject"
+//
+//func dbConnect(url string) *sql.DB {
+//	db, err := sql.Open("mysql", url)
+//	if err != nil {
+//		panic(err.Error())
+//	}
+//	return db
+//}
 
 func checkTagExist(tag string, db *sql.DB) int64 {
 	var tagId int64
@@ -59,4 +70,55 @@ func AddIntoPostTagsTable(postId int64, tagId int64, db *sql.DB) {
 	if err != nil {
 		panic(err.Error())
 	}
+}
+
+func GetTagIdFromDb(PostTagsFromUser []string, db *sql.DB) []int64 {
+	var tagId int64
+	var tagIds []int64
+	for _, i := range PostTagsFromUser {
+		row := db.QueryRow("SELECT id FROM tags WHERE tagText=?", i).Scan(&tagId)
+		if row != nil {
+			continue
+		}
+		tagIds = append(tagIds, tagId)
+	}
+	return tagIds
+}
+
+func getPostIdFromDb(tagIds []int64, db *sql.DB) []int64 {
+	var postId int64
+	var postIds []int64
+	for _, i := range tagIds {
+		row := db.QueryRow("SELECT post_id FROM postsTags WHERE tag_id=?", i).Scan(&postId)
+		if row != nil {
+			continue
+		}
+		postIds = append(postIds, postId)
+		//fmt.Println(postIds[0])
+	}
+	return postIds
+}
+
+func GetPosts(PostTagsFromUser []string, db *sql.DB) []Post {
+	var result []Post
+	tagIds := GetTagIdFromDb(PostTagsFromUser, db)
+	if tagIds != nil {
+		postIds := getPostIdFromDb(tagIds, db)
+
+		var t, d, l string //t - title, d - description, l - link
+		for _, i := range postIds {
+			err := db.QueryRow("SELECT title,description,link FROM posts WHERE id=?", i).Scan(&t, &d, &l)
+			if err != nil {
+				continue
+			}
+			res := Post{
+				Title:       t,
+				Link:        l,
+				Description: d,
+			}
+			result = append(result, res)
+		}
+		return result
+	}
+	return result
 }
