@@ -18,6 +18,7 @@ func HabrScraper(url string) []lib.Post {
 			Link:        feed.Items[i].Link,
 			Description: cleanText(feed.Items[i].Description),
 			Tags:        feed.Items[i].Categories,
+			Source:      "Habr_ru",
 		}
 		posts = append(posts, item)
 	}

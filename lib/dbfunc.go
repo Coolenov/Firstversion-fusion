@@ -6,15 +6,15 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//ts := "root:root@tcp(127.0.0.1:3306)/Naxproject"
-//
-//func dbConnect(url string) *sql.DB {
-//	db, err := sql.Open("mysql", url)
-//	if err != nil {
-//		panic(err.Error())
-//	}
-//	return db
-//}
+const dbUrl = "root:root@tcp(127.0.0.1:3306)/NaxProject"
+
+func DbConnect() *sql.DB {
+	db, err := sql.Open("mysql", dbUrl)
+	if err != nil {
+		panic(err.Error())
+	}
+	return db
+}
 
 func CheckTagExist(tag string, db *sql.DB) bool {
 	var tagId int64
@@ -54,11 +54,12 @@ func CheckPostExistByLink(link string, db *sql.DB) bool {
 }
 
 func AddPostIntoPostsTable(post Post, db *sql.DB) int64 {
-	res, err := db.Exec("INSERT INTO posts(title,description,link,imageUrl) VALUES(?,?,?,?)",
+	res, err := db.Exec("INSERT INTO posts(title,description,link,imageUrl,source) VALUES(?,?,?,?,?)",
 		post.Title,
 		post.Description,
 		post.Link,
-		post.imageUrl)
+		post.ImageUrl,
+		post.Source)
 	if err != nil {
 		panic(err.Error())
 	}
@@ -103,15 +104,14 @@ func getPostIdFromDb(tagIds []int64, db *sql.DB) []int64 {
 	return postIds
 }
 
-func GetPosts(PostTagsFromUser []string, db *sql.DB) []Post {
+func GetPostsByTags(PostTagsFromUser []string, db *sql.DB) []Post {
 	var result []Post
 	tagIds := GetTagIdFromDb(PostTagsFromUser, db)
 	if tagIds != nil {
 		postIds := getPostIdFromDb(tagIds, db)
-
-		var t, d, l string //t - title, d - description, l - link
+		var t, d, l, s string //t - title, d - description, l - link
 		for _, i := range postIds {
-			err := db.QueryRow("SELECT title,description,link FROM posts WHERE id=?", i).Scan(&t, &d, &l)
+			err := db.QueryRow("SELECT title,description,link,source FROM posts WHERE id=?", i).Scan(&t, &d, &l, &s)
 			if err != nil {
 				continue
 			}
@@ -119,6 +119,7 @@ func GetPosts(PostTagsFromUser []string, db *sql.DB) []Post {
 				Title:       t,
 				Link:        l,
 				Description: d,
+				Source:      s,
 			}
 			result = append(result, res)
 		}
@@ -144,10 +145,53 @@ func GetAllPosts(db *sql.DB) []Post {
 			Title:       t,
 			Link:        l,
 			Description: d,
-			imageUrl:    "",
+			ImageUrl:    "",
 			Tags:        nil,
 		}
 		posts = append(posts, post)
 	}
 	return posts
+}
+
+func GetPostBySource(sourceName string, db *sql.DB) []Post {
+	var posts []Post
+	rows, err := db.Query("SELECT title,description,link FROM posts WHERE source=?", sourceName)
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		var t, d, l string //t - title, d - description, l - link
+		err := rows.Scan(&t, &d, &l)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+		post := Post{
+			Title:       t,
+			Link:        l,
+			Description: d,
+			ImageUrl:    "",
+			Tags:        nil,
+			Source:      sourceName,
+		}
+		posts = append(posts, post)
+	}
+	return posts
+}
+
+func GetUniqSources(db *sql.DB) []string {
+	var result []string
+
+	rows, err := db.Query("SELECT DISTINCT source FROM posts")
+	if err != nil {
+		fmt.Println(err)
+	}
+	for rows.Next() {
+		var source string
+		if err := rows.Scan(&source); err != nil {
+			fmt.Println(err)
+		}
+		result = append(result, source)
+	}
+	return result
 }

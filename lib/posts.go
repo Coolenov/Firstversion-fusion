@@ -4,7 +4,8 @@ type Post struct {
 	Title       string   `json:"title"`
 	Link        string   `json:"link"`
 	Description string   `json:"description"`
-	imageUrl    string   `default:"nil"`
+	ImageUrl    string   `default:"nil"`
+	Source      string   `json:"source"`
 	Tags        []string `json:"tags"`
 }
 

@@ -2,7 +2,11 @@ package api
 
 import "NaxProject/lib"
 
-type Album struct {
-	sourse string    `json:"sourse_post"`
-	post   *lib.Post `json:"obj_post"`
+type Contents struct {
+	data []Content `json:"data"`
+}
+
+type Content struct {
+	sourceName string     `json:"sourceName"`
+	postData   []lib.Post `json:"postdata"`
 }
