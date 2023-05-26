@@ -15,7 +15,7 @@ func HandleRequests() {
 	r := mux.NewRouter()
 	r.HandleFunc("/", homePage)
 	r.HandleFunc("/posts", ReturnAllPosts)
-	r.HandleFunc("/posts", ReturnAllPosts)
+	r.HandleFunc("/contents", ReturnContents)
 	log.Fatal(http.ListenAndServe(":10000", r))
 }
 
@@ -27,11 +27,37 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 func ReturnAllPosts(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("Endpoint Hit: returnAllPosts")
 	//var tags = []string{"android"}
-	db, err := sql.Open("mysql", "root:password@tcp(127.0.0.1:3306)/Nax")
-	if err != nil {
-		panic(err.Error())
-	}
+	db := lib.DbConnect()
 	defer db.Close()
 	posts := lib.GetAllPosts(db)
 	json.NewEncoder(w).Encode(posts)
+}
+
+func MakeContentBySourceName(sourceName string, db *sql.DB) Content {
+	posts := lib.GetPostBySource(sourceName, db)
+	result := Content{
+		sourceName: sourceName,
+		postData:   posts,
+	}
+	//fmt.Println(result.postData)
+	//fmt.Println(result.sourceName)
+	fmt.Println(result)
+	return result
+}
+
+func ReturnContents(w http.ResponseWriter, r *http.Request) {
+	db := lib.DbConnect()
+	defer db.Close()
+	var contents []map[string]interface{}
+	uniqSources := lib.GetUniqSources(db)
+	for _, oneSource := range uniqSources {
+		posts := lib.GetPostBySource(oneSource, db)
+		myMap := make(map[string]interface{})
+		myMap["data"] = posts
+		myMap["service_name"] = oneSource
+
+		contents = append(contents, myMap)
+	}
+	//fmt.Println(contents)
+	json.NewEncoder(w).Encode(contents)
 }

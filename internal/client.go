@@ -3,13 +3,10 @@ package internal
 import (
 	"NaxProject/lib"
 	"NaxProject/scrapers"
-	"database/sql"
 )
 
 const (
 	habrUrl = "https://habr.com/ru/rss/all/all/"
-
-	dbUrl = "root:password@tcp(127.0.0.1:3306)/Nax"
 )
 
 func GetScraperPosts() []lib.Post {
@@ -20,10 +17,7 @@ func GetScraperPosts() []lib.Post {
 }
 
 func SaveScraperPosts(posts []lib.Post) {
-	db, err := sql.Open("mysql", dbUrl)
-	if err != nil {
-		panic(err.Error())
-	}
+	db := lib.DbConnect()
 	defer db.Close()
 	for _, post := range posts {
 		if !lib.CheckPostExistByLink(post.Link, db) {
