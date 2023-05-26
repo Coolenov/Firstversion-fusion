@@ -2,7 +2,9 @@ package scrapers
 
 import (
 	"NaxProject/lib"
+	"github.com/microcosm-cc/bluemonday"
 	"github.com/mmcdole/gofeed"
+	"strings"
 )
 
 func HabrScraper(url string) []lib.Post {
@@ -14,10 +16,17 @@ func HabrScraper(url string) []lib.Post {
 		item := lib.Post{
 			Title:       feed.Items[i].Title,
 			Link:        feed.Items[i].Link,
-			Description: feed.Items[i].Description,
+			Description: cleanText(feed.Items[i].Description),
 			Tags:        feed.Items[i].Categories,
 		}
 		posts = append(posts, item)
 	}
 	return posts
+}
+
+func cleanText(str string) string {
+	p := bluemonday.StripTagsPolicy()
+	result := p.Sanitize(str)
+	result = strings.ReplaceAll(result, "Читать далее", "")
+	return result
 }
