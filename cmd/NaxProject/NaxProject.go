@@ -2,28 +2,13 @@ package main
 
 import (
 	"NaxProject/internal"
-	"database/sql"
-	"fmt"
+	"NaxProject/lib/database"
 	_ "github.com/go-sql-driver/mysql"
-	"time"
 )
 
 func main() {
-	db, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/NaxProject")
-	if err != nil {
-		panic(err.Error())
-	}
+	db := database.DbConnect()
 	defer db.Close()
-	counter := 0
-	for counter != 100 {
-		timer := time.NewTimer(10 * time.Second)
-		posts := internal.GetScraperPosts()
-		internal.SaveScraperPosts(posts)
-		fmt.Println("Parsed ", counter)
-		if counter != 99 {
-			<-timer.C
-			counter++
-		}
-
-	}
+	posts := internal.GetScraperPosts()
+	internal.SaveScraperPosts(posts)
 }

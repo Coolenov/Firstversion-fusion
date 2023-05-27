@@ -1,8 +1,6 @@
 package main
 
-import (
-	"NaxProject/api"
-)
+import "NaxProject/scrapers/habr/api"
 
 func main() {
 	api.HandleRequests()
