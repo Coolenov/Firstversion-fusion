@@ -1,4 +1,4 @@
-package scrapers
+package pikaboo
 
 //func PikabuScraper(url string) []lib.Post {
 //	var fp = gofeed.NewParser()
