@@ -5,7 +5,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-const dbUrl = "root:root@tcp(127.0.0.1:3306)/NaxProject"
+const dbUrl = "root:root@tcp(127.0.0.1:3307)/test_db"
 
 func DbConnect() *sql.DB {
 	db, err := sql.Open("mysql", dbUrl)

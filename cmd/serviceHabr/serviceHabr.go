@@ -1,7 +1,17 @@
 package main
 
-import "NaxProject/scrapers/habr/api"
+import (
+	"NaxProject/initialize"
+	"NaxProject/scrapers/habr/api"
+	"github.com/gin-gonic/gin"
+)
 
+func init() {
+	initialize.LoadEnv()
+}
 func main() {
-	api.HandleRequests()
+
+	r := gin.Default()
+	r.GET("/get/news", api.ReturnAllPosts)
+	r.Run()
 }

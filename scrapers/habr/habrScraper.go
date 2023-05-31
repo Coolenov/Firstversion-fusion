@@ -14,13 +14,16 @@ func HabrScraper() []lib.Post {
 
 	var posts []lib.Post
 	for i := 0; i < 20; i++ {
+		//var Tags []lib.Tag
+		//Tags = makeArrTags(feed.Items[i].Categories)
 		item := lib.Post{
-			Title:          feed.Items[i].Title,
-			Link:           feed.Items[i].Link,
-			Description:    sanitizeText(feed.Items[i].Description),
-			Tags:           feed.Items[i].Categories,
-			Source:         "Habr_ru",
-			PublishingTime: formPubTime(feed.Items[i].Published),
+			Title:       feed.Items[i].Title,
+			Link:        feed.Items[i].Link,
+			Description: sanitizeText(feed.Items[i].Description),
+			//Tags:            Tags,
+			Tags:            feed.Items[i].Categories,
+			Source:          "Habr_ru",
+			Publishing_time: formPubTime(feed.Items[i].Published),
 		}
 		posts = append(posts, item)
 	}
@@ -36,12 +39,21 @@ func sanitizeText(str string) string {
 
 func formPubTime(timeStr string) int64 {
 	timeString := timeStr
-	timeLayout := "02 Jan 2006 15:04:05 MST"
-	timeObj, err := time.Parse(timeLayout, timeString)
-
-	if err != nil {
-		return 0
-	}
+	timeLayout := "Tue, 02 Jan 2006 15:04:05 MST"
+	timeObj, _ := time.Parse(timeLayout, timeString)
 	timestamp := timeObj.Unix()
 	return timestamp
 }
+
+//
+//func makeArrTags(tags []string) []lib.Tag {
+//	var Tags []lib.Tag
+//	for _, tag := range tags {
+//		tagObj := lib.Tag{
+//			Model: gorm.Model{},
+//			Text:  strings.ToLower(tag),
+//		}
+//		Tags = append(Tags, tagObj)
+//	}
+//	return Tags
+//}
