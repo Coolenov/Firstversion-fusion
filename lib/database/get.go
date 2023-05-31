@@ -74,7 +74,7 @@ func GetAllPosts(db *sql.DB) []lib.Post {
 			Title:       t,
 			Link:        l,
 			Description: d,
-			ImageUrl:    "",
+			Image_url:   "",
 			Tags:        nil,
 		}
 		posts = append(posts, post)
@@ -99,7 +99,7 @@ func GetPostBySource(sourceName string, db *sql.DB) []lib.Post {
 			Title:       t,
 			Link:        l,
 			Description: d,
-			ImageUrl:    "",
+			Image_url:   "",
 			Tags:        nil,
 			Source:      sourceName,
 		}
@@ -148,9 +148,9 @@ func GetScrapersUrl(db *sql.DB) ([]string, error) {
 
 func GetTagIdByTag(tag string, db *sql.DB) int64 {
 	var tagId int64
-	row := db.QueryRow("SELECT id FROM tags WHERE tagText=?", tag).Scan(&tagId)
+	row := db.QueryRow("SELECT id FROM tags WHERE text=?", tag).Scan(&tagId)
 	if row != nil {
-		return 0
+		fmt.Println(row)
 	}
 	return tagId
 

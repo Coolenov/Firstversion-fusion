@@ -1,20 +1,22 @@
 package apiDataCollector
 
 import (
+	"NaxProject/initialize"
 	"NaxProject/lib"
 	"NaxProject/lib/database"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"strings"
 )
 
 func GetAndSaveScrapersPosts(link string) {
-	posts := GetScrapedData(link)
+	posts := getScrapedData(link)
 	saveScraperPosts(posts)
 }
 
-func GetScrapedData(scraper_link string) []lib.Post {
+func getScrapedData(scraper_link string) []lib.Post {
 	var posts []lib.Post
 	client := &http.Client{}
 
@@ -43,20 +45,85 @@ func GetScrapedData(scraper_link string) []lib.Post {
 }
 
 func saveScraperPosts(posts []lib.Post) {
-	db := database.DbConnect()
-	defer db.Close()
+
 	for _, post := range posts {
-		if !database.CheckPostExistByLink(post.Link, db) {
-			postId := database.AddPostIntoPostsTable(post, db)
-			for _, tag := range post.Tags {
+		if !database.CheckPostExistByLink(post.Link, initialize.DB) {
+			postId := database.AddPostIntoPostsTable(post, initialize.DB)
+			tags := removeDuplicates(post.Tags)
+			for _, tag := range tags {
 				var tagId int64
-				if !database.CheckTagExist(tag, db) {
-					tagId = database.AddTagIntoTagsTable(tag, db)
+				if !database.CheckTagExist(tag, initialize.DB) {
+					tagId = database.AddTagIntoTagsTable(tag, initialize.DB)
 				} else {
-					tagId = database.GetTagIdByTag(tag, db)
+					tagId = database.GetTagIdByTag(tag, initialize.DB)
 				}
-				database.AddIntoPostTagsTable(postId, tagId, db)
+				database.AddIntoPostTagsTable(postId, tagId, initialize.DB)
 			}
 		}
 	}
 }
+
+func removeDuplicates(arr []string) []string {
+	uniqueMap := make(map[string]bool)
+	result := []string{}
+
+	for _, str := range arr {
+		str = strings.ToLower(str)
+		if !uniqueMap[str] {
+			result = append(result, str)
+			uniqueMap[str] = true
+		}
+	}
+	return result
+}
+
+//func GetAndSavePosts(scraper_link string) {
+//	var posts []lib.Post
+//	posts = getScrapedData(scraper_link)
+//	err := sp(posts)
+//	if err != nil {
+//		fmt.Println(err)
+//	}
+//	//savePosts(posts)
+//}
+
+//func GetAndSavePosts(scraper_link string) {
+//	var posts []lib.Post
+//	posts = getScrapedData(scraper_link)
+//	for _, post := range posts {
+//		err := gormDb.AddPostWithTags(post)
+//		if err != nil {
+//			fmt.Println(err)
+//		}
+//	}
+//}
+
+//func savePosts(posts []lib.Post) {
+//	//gormDb.AddPostsToDataBase(posts)
+//	//gormDb.AddTagsToDataBase(posts)
+//	for _, post := range posts {
+//		result := initialize.DB.Create(&post)
+//		if result.Error != nil {
+//			fmt.Println("Ошибка при добавлении поста:", result.Error)
+//		}
+//	}
+//}
+
+//func sp(posts []lib.Post) error {
+//	for i := range posts {
+//		post := &posts[i]
+//		// Получаем или создаем теги и связываем их с постом
+//		for j := range post.Tags {
+//			tag := &post.Tags[j]
+//			if err := initialize.DB.Where("text = ?", tag.Text).FirstOrCreate(tag).Error; err != nil {
+//				return err
+//			}
+//		}
+//
+//		// Сохраняем пост в базу данных
+//		if err := initialize.DB.Create(post).Error; err != nil {
+//			return err
+//		}
+//	}
+//	return nil
+//}

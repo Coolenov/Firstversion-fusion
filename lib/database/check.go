@@ -4,7 +4,7 @@ import "database/sql"
 
 func CheckTagExist(tag string, db *sql.DB) bool {
 	var tagId int64
-	row := db.QueryRow("SELECT id FROM tags WHERE tagText=?", tag).Scan(&tagId)
+	row := db.QueryRow("SELECT id FROM tags WHERE text=?", tag).Scan(&tagId)
 	if row != nil {
 		return false
 	}
