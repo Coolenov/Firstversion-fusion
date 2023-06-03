@@ -10,28 +10,27 @@ type Post struct {
 	Publishing_time int64    `json:"publishingTime"`
 }
 
-//type Post struct {
-//	gorm.Model
-//	Title           string
-//	Link            string
-//	Description     string
-//	Image_url       string
-//	Source          string
-//	Tags            []Tag `gorm:"many2many:post_tags;"`
-//	Publishing_time int64
-//}
-//
-//type Tag struct {
-//	gorm.Model
-//	Text string
-//}
-//
-//type Scraper struct {
-//	gorm.Model
-//	Name string
-//	Link string
-//}
+type Content struct {
+	Id              int64
+	Title           string
+	Link            string
+	Description     string
+	Image_url       string
+	Source          string
+	Publishing_time int64
+}
 
-//type Response struct {
-//	Articles []Post `json:"articles"`
-//}
+type PostTags struct {
+	Id      int64
+	Tag_id  int64
+	Post_id int64
+}
+
+type Tag struct {
+	Id   int64
+	Text string
+}
+
+type Sourse struct {
+	Name string
+}

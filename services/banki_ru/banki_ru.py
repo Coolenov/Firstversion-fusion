@@ -22,6 +22,7 @@ class bankiRu:
 
 	def get_news(self) -> list:
 		all_news = feedparser.parse(self.base_url)
+		print(all_news)
 		ready_news_list = []
 
 		for news in all_news['entries']:
@@ -34,3 +35,9 @@ class bankiRu:
 				'publishing_time': self._get_timestamp_from_string(news['published'])})
 		
 		return ready_news_list
+
+b = bankiRu()
+
+news = b.get_news()
+
+print(news)

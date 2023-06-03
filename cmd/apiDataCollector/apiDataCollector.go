@@ -41,5 +41,11 @@ func main() {
 	//	time.Sleep(10 * time.Second)
 	//}
 
-	apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:8000/get/news")
+	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:8000/get/news")
+	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40390/get/news")
+	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40393/get/news")
+	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40391/get/news")
+	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40395/get/news")
+	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40392/get/news")
+	apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40394/get/news")
 }

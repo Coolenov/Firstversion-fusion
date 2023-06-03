@@ -2,6 +2,7 @@ package habr
 
 import (
 	"NaxProject/lib"
+	"fmt"
 	"github.com/microcosm-cc/bluemonday"
 	"github.com/mmcdole/gofeed"
 	"strings"
@@ -10,10 +11,11 @@ import (
 
 func HabrScraper() []lib.Post {
 	var fp = gofeed.NewParser()
-	var feed, _ = fp.ParseURL("https://habr.com/ru/rss/all/all/")
+	//var feed, _ = fp.ParseURL("https://habr.com/ru/rss/all/all/")
+	var feed, _ = fp.ParseURL("https://habr.com/ru/rss/all/all/?limit=100")
 
 	var posts []lib.Post
-	for i := 0; i < 20; i++ {
+	for i := 0; i < 100; i++ {
 		//var Tags []lib.Tag
 		//Tags = makeArrTags(feed.Items[i].Categories)
 		item := lib.Post{
@@ -39,8 +41,11 @@ func sanitizeText(str string) string {
 
 func formPubTime(timeStr string) int64 {
 	timeString := timeStr
-	timeLayout := "Tue, 02 Jan 2006 15:04:05 MST"
-	timeObj, _ := time.Parse(timeLayout, timeString)
+	timeLayout := "Mon, 02 Jan 2006 15:04:05 MST"
+	timeObj, err := time.Parse(timeLayout, timeString)
+	if err != nil {
+		fmt.Println("Ошибка при парсинге времени:", err)
+	}
 	timestamp := timeObj.Unix()
 	return timestamp
 }
