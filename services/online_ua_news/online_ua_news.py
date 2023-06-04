@@ -22,9 +22,9 @@ class UaNews:
 			ready_news_list.append({'title': news['title'],
 				'link': news['links'][0]['href'],
 				'description': news['summary'],
-				'image_url': news['links'][1]['href'] if len(news['links']) > 1 else None,
+				'imageUrl': news['links'][1]['href'] if len(news['links']) > 1 else None,
 				'source': 'news.online.ua',
 				'tags': [tag['term'] for tag in news['tags']],
-				'publishing_time': self._get_timestamp_from_string(news['published'])})
+				'publishingTime': self._get_timestamp_from_string(news['published'])})
 		
 		return ready_news_list

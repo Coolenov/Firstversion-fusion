@@ -22,9 +22,9 @@ class VZ:
 			ready_news_list.append({'title': news['title'],
 				'link': news['links'][0]['href'],
 				'description': news['summary'],
-				'image_url': None,
+				'imageUrl': None,
 				'source': 'vz.ru',
 				'tags': [tag['term'] for tag in news['tags']],
-				'publishing_time': self._get_timestamp_from_string(news['published'])})
+				'publishingTime': self._get_timestamp_from_string(news['published'])})
 		
 		return ready_news_list

@@ -22,9 +22,9 @@ class lentaRu:
 			ready_news_list.append({'title': news['title'],
 				'link': news['links'][0]['href'],
 				'description': news['summary'],
-				'image_url': news['links'][1]['href'],
+				'imageUrl': news['links'][1]['href'],
 				'source': 'lenta.ru',
 				'tags': [tag['term'] for tag in news['tags']],
-				'publishing_time': self._get_timestamp_from_string(news['published'])})
+				'publishingTime': self._get_timestamp_from_string(news['published'])})
 		
 		return ready_news_list

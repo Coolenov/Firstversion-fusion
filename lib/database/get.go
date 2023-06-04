@@ -74,7 +74,7 @@ func GetAllPosts(db *sql.DB) []lib.Post {
 			Title:       t,
 			Link:        l,
 			Description: d,
-			Image_url:   "",
+			ImageUrl:    "",
 			Tags:        nil,
 		}
 		posts = append(posts, post)
@@ -99,7 +99,7 @@ func GetPostBySource(sourceName string, db *sql.DB) []lib.Post {
 			Title:       t,
 			Link:        l,
 			Description: d,
-			Image_url:   "",
+			ImageUrl:    "",
 			Tags:        nil,
 			Source:      sourceName,
 		}

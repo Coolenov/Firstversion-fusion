@@ -21,8 +21,8 @@ func AddPostIntoPostsTable(post lib.Post, db *sql.DB) int64 {
 		post.Title,
 		post.Description,
 		post.Link,
-		post.Image_url,
-		post.Publishing_time)
+		post.ImageUrl,
+		post.PublishingTime)
 	if err != nil {
 		panic(err.Error())
 	}

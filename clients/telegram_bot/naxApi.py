@@ -14,9 +14,9 @@ class Content:
     Title:              str
     Link:               str
     Description:        str
-    Image_url:          str
+    ImageUrl:          str
     Source:             str
-    Publishing_time:    int
+    PublishingTime:    int
 
 @dataclass
 class Source:
@@ -37,7 +37,7 @@ class Nax:
                         resp['Image_url'],resp['Source'],self._formPublishingTime(resp['Publishing_time']))
 
     def GetTextForTelegramMessage(self,content:Content)->str:
-        return f'<b>{content.Title}</b>\n\n{content.Description}\n{content.Publishing_time}'
+        return f'<b>{content.Title}</b>\n\n{content.Description}\n{content.PublishingTime}'
 
     def GetLastContentBySource(self,source:str)->Content:
         resp = self.session.post(f"{self.baseUrl}/content/source",data = {"source":source})
@@ -46,7 +46,10 @@ class Nax:
 
     def GetNextContent(self,post_id:str)->Content:
         resp = self.session.post(f"{self.baseUrl}/next",data = {"id":post_id})
+
         resp = resp.json()
+        if resp["error"] == True:
+            return None
         return self._createContentFromResp(resp)
 
     def GetPreviousContent(self,post_id:str)->Content:

@@ -1,13 +1,13 @@
 package lib
 
 type Post struct {
-	Title           string   `json:"title"`
-	Link            string   `json:"link"`
-	Description     string   `json:"description"`
-	Image_url       string   `json:"imageUrl"`
-	Source          string   `json:"source"`
-	Tags            []string `json:"tags"`
-	Publishing_time int64    `json:"publishingTime"`
+	Title          string   `json:"title"`
+	Link           string   `json:"link"`
+	Description    string   `json:"description"`
+	ImageUrl       string   `json:"imageUrl"`
+	Source         string   `json:"source"`
+	Tags           []string `json:"tags"`
+	PublishingTime int64    `json:"publishingTime"`
 }
 
 type Content struct {
