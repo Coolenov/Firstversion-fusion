@@ -1,9 +1,9 @@
 package main
 
 import (
-	"NaxProject/api/controllers"
-	"NaxProject/initialize"
-	"NaxProject/lib/gormDb"
+	"FusionAPI/api/controllers"
+	"FusionAPI/initialize"
+	"FusionAPI/lib/gormDb"
 	"github.com/gin-gonic/gin"
 )
 
@@ -25,5 +25,5 @@ func main() {
 	r.POST("/next", controllers.GetNextContent)
 	r.POST("/previous", controllers.GetPreviousContent)
 
-	r.Run(":9000")
+	r.Run(":10000")
 }

@@ -30,10 +30,8 @@ package gormDb
 ////	db := initialize.DB
 ////	for _, post := range posts {
 ////		for _, tag := range post.Tags {
-////			// Проверяем, существует ли тег в базе данных
 ////			var existingTag lib.Tag
 ////			if err := db.Where("text = ?", tag.Text).First(&existingTag).Error; err != nil {
-////				// Если тег не существует, добавляем его в базу данных
 ////				if gorm.IsRecordNotFoundError(err) {
 ////					if err := db.Create(&tag).Error; err != nil {
 ////						continue
@@ -48,10 +46,8 @@ package gormDb
 //
 //func AddPostWithTags(post lib.Post) error {
 //	for i := range post.Tags {
-//		// Проверяем, существует ли тег в базе данных
 //		var existingTag lib.Tag
 //		if err := initialize.DB.Where("text = ?", post.Tags[i].Text).First(&existingTag).Error; err != nil {
-//			// Если тег не существует, добавляем его в базу данных
 //			if errors.Is(err, gorm.ErrRecordNotFound) {
 //				if err := initialize.DB.Create(&post.Tags[i]).Error; err != nil {
 //					return err
@@ -60,12 +56,10 @@ package gormDb
 //				return err
 //			}
 //		} else {
-//			// Тег уже существует, присоединяем его к посту
 //			post.Tags[i] = existingTag
 //		}
 //	}
 //
-//	// Добавляем пост в таблицу Posts
 //	if err := initialize.DB.Create(&post).Error; err != nil {
 //		return err
 //	}

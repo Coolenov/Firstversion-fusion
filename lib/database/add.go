@@ -1,7 +1,7 @@
 package database
 
 import (
-	"NaxProject/lib"
+	"FusionAPI/lib"
 	"database/sql"
 )
 

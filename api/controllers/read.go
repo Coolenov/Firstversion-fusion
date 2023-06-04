@@ -1,8 +1,8 @@
 package controllers
 
 import (
-	"NaxProject/lib"
-	"NaxProject/lib/gormDb"
+	"FusionAPI/lib"
+	"FusionAPI/lib/gormDb"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"strconv"

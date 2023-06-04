@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/NaxProject.iml" filepath="$PROJECT_DIR$/.idea/NaxProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/FusionAPI.iml" filepath="$PROJECT_DIR$/.idea/FusionAPI.iml" />
     </modules>
   </component>
 </project>

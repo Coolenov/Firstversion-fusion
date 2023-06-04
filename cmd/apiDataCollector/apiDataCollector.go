@@ -1,8 +1,11 @@
 package main
 
 import (
-	"NaxProject/initialize"
-	"NaxProject/internal/apiDataCollector"
+	"FusionAPI/initialize"
+	"FusionAPI/lib/database"
+	"FusionAPI/services/apiDataCollector"
+	"fmt"
+	"time"
 )
 
 func init() {
@@ -12,41 +15,22 @@ func init() {
 
 func main() {
 
-	//for {
-	//	db := database.DbConnect()
-	//	links, err := database.GetScrapersUrl(db)
-	//	if err != nil {
-	//		db.Close()
-	//		fmt.Println("Cant get scrapers URL!!!\n Trying more...", err)
-	//		continue
-	//	}
-	//	fmt.Println(links)
-	//	for _, link := range links {
-	//		apiDataCollector.GetAndSaveScrapersPosts(link)
-	//		err := database.ChangeLastRequestByLink(link, db)
-	//		if err != nil {
-	//			fmt.Println(err)
-	//		}
-	//	}
-	//	db.Close()
-	//	fmt.Println("for is finished")
-	//	time.Sleep(5 * time.Second)
-	//}
+	for {
+		links, err := database.GetScrapersUrl()
+		if err != nil {
+			fmt.Println("Cant get scrapers URL!!!\n Trying more...", err)
+			continue
+		}
+		fmt.Println(links)
+		for _, link := range links {
+			apiDataCollector.GetAndSaveScrapersPosts(link)
+			err := database.ChangeLastRequestByLink(link)
+			if err != nil {
+				fmt.Println("Cant change last_request", err)
+			}
+		}
+		fmt.Println("for is finished")
+		time.Sleep(10 * time.Second)
+	}
 
-	//for {
-	//	links := gormDb.GetScraperLinks()
-	//	for _, link := range links {
-	//		apiDataCollector.GetAndSavePosts(link)
-	//	}
-	//	time.Sleep(10 * time.Second)
-	//}
-
-	apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:8000/get/news")
-	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40390/get/news")
-	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40393/get/news")
-	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40391/get/news")
-	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40395/get/news")
-	apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40392/get/news")
-	//apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40394/get/news")
-	apiDataCollector.GetAndSaveScrapersPosts("http://127.0.0.1:40400/get/news")
 }
