@@ -1,11 +1,6 @@
 package controllers
 
 import (
-<<<<<<< Updated upstream
-	"NaxProject/lib"
-	"NaxProject/lib/gormDb"
-=======
->>>>>>> Stashed changes
 	"fmt"
 	"github.com/Coolenov/FusionAPI-monorepo/lib"
 	"github.com/Coolenov/FusionAPI-monorepo/lib/gormDb"
