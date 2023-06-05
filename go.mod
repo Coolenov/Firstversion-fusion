@@ -1,13 +1,14 @@
+<<<<<<< Updated upstream
 module NaxProject
+=======
+module github.com/Coolenov/FusionAPI
+>>>>>>> Stashed changes
 
 go 1.20
 
-require (
-	github.com/go-sql-driver/mysql v1.7.1
-	github.com/mmcdole/gofeed v1.2.1
-)
 
 require (
+<<<<<<< Updated upstream
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/andybalholm/cascadia v1.3.1 // indirect
 	github.com/aymerick/douceur v0.2.0 // indirect
@@ -52,3 +53,10 @@ require (
 	gorm.io/driver/sqlite v1.5.1 // indirect
 	gorm.io/gorm v1.25.1 // indirect
 )
+=======
+	github.com/Coolenov/FusionAPI/api
+	github.com/Coolenov/FusionAPI/api_data_collector
+	github.com/Coolenov/FusionAPI/pkg
+	github.com/Coolenov/FusionAPI/habr_ru_api
+)
+>>>>>>> Stashed changes
